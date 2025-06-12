@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.overly {
+    background: rgba(0, 0, 0, 0.5);
+}

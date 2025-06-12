@@ -2,16 +2,11 @@ import React, { useState } from "react";
 import { IoSendSharp } from "react-icons/io5";
 import { getChatResponse } from "../utils/openai";
 
-
 const Chatbot = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [messages, setMessages] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
 
-    if (!API_KEY) {
-    console.error("❌ OpenAI API key not found in environment variables.");
-    return { role: "assistant", content: "Configuration error: Missing API key." };
-}
     const handleInputChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -23,26 +18,34 @@ const Chatbot = () => {
             return;
         }
 
-        const newMessages = [...messages, { role: "user", content: searchQuery }];
+        const userMessage = {
+            role: "user",
+            content: searchQuery,
+            time: new Date().toLocaleString()
+        };
+
+        const newMessages = [...messages, userMessage];
         setMessages(newMessages);
         setSearchQuery("");
         setIsTyping(true);
 
         const response = await getChatResponse(newMessages);
 
-        setMessages([
-            ...newMessages,
-            { role: "assistant", content: response.content },
-        ]);
+        const botMessage = {
+            role: "assistant",
+            content: response.content,
+            time: new Date().toLocaleString()
+        };
+
+        setMessages([...newMessages, botMessage]);
         setIsTyping(false);
     };
 
-    // key down logic here
-    const handleKeyDown = (e) =>{
-        if (e.key === 'Enter') {
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
             handleSubmit();
         }
-    }
+    };
 
     return (
         <div className="h-screen w-full bg-gray-100 flex items-center justify-center p-4">
@@ -51,23 +54,26 @@ const Chatbot = () => {
                     🤖 DigiBuddy
                 </div>
 
-                <div className="flex-1 px-4 py-3 space-y-3 overflow-y-auto h-96">
-                  
-                  
-                  
+                <div className="flex-1 px-4 py-3 space-y-3 overflow-y-auto">
                     {messages.map((msg, index) => (
                         <div
                             key={index}
                             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                         >
-                            <div className={`px-4 py-2 rounded-xl text-sm ${msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-200"
-                                }`}>
-                                {msg.content}
+                            <div
+                                className={`max-w-[70%] px-4 py-2 rounded-xl text-sm ${msg.role === "user"
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-gray-200"
+                                    }`}
+                            >
+                                <p>{msg.content}</p>
+                                <p className="text-[10px] text-right text-gray-500 mt-1">
+                                    {msg.time}
+                                </p>
                             </div>
                         </div>
                     ))}
 
-                 
                     {isTyping && (
                         <div className="flex justify-start">
                             <div className="bg-gray-200 text-sm px-4 py-2 rounded-xl animate-pulse">
@@ -82,7 +88,8 @@ const Chatbot = () => {
                         type="text"
                         placeholder="Type a message..."
                         value={searchQuery}
-                        onChange={handleInputChange} onKeyDown={handleKeyDown}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
                         className="flex-1 px-4 py-4 text-sm border rounded-xl outline-none focus:ring-2 focus:ring-blue-300"
                     />
                     <button

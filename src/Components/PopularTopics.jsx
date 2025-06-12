@@ -1,5 +1,6 @@
 import React from "react";
 import { FaWhatsapp, FaShieldAlt, FaRibbon } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const topicsData = [
     {
@@ -27,7 +28,8 @@ const topicsData = [
         borderColor: "border-t-4 border-purple-500",
         backgroundColor:"bg-purple-300 opacity-40",
         buttonColor: "bg-purple-500 hover:bg-purple-600",
-        btnText: "Learn Safety"
+        btnText: "Learn Safety",
+        link:"/aichat"
     }
 ];
 
@@ -51,9 +53,9 @@ const PopularTopics = () => (
                     </h3>
                     <p className="text-gray-700 text-center mb-6">{topic.description}</p>
                     <div className="flex justify-center">
-                        <button className={`cursor-pointer ${topic.buttonColor} text-white px-6 py-2 rounded-md font-semibold shadow transition`}>
+                        <Link to={topic.link} className={`cursor-pointer ${topic.buttonColor} text-white px-6 py-2 rounded-md font-semibold shadow transition`}>
                             {topic.btnText}
-                        </button>
+                        </Link>
                     </div>
                 </div>
             ))}

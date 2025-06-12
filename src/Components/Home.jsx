@@ -2,6 +2,7 @@ import React from "react";
 import { FaVideo } from "react-icons/fa";
 import PopularTopics from "./PopularTopics";
 import DigitalJourneySection from "./DigitalJourneySection";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     return (
@@ -24,9 +25,9 @@ const Home = () => {
                     <p className="text-lg sm:text-xl max-w-2xl">
                         Helping elders and parents learn technology step-by-step with easy tutorials.
                     </p>
-                    <button className="mt-5  cursor-pointer bg-blue-600 text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-blue-700 transition">
+                    <Link to={`/tutorials`}  className="mt-5  cursor-pointer bg-blue-600 text-white px-6 py-2 rounded-md font-semibold shadow hover:bg-blue-700 transition">
                         Watch Tutorial <FaVideo className="inline-block" />
-                    </button>
+                    </Link>
                 </div>
             </div>
             <PopularTopics />

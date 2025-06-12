@@ -28,7 +28,7 @@ const tutorialsData = [
 ];
 
 const Tutorials = () => (
-    <div className="p-6 md:p-10 bg-gray-50 min-h-screen">
+    <div className="p-6 md:p-10 bg-gray-50 ">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-10">
             Our Easy to Follow Tutorials
         </h2>

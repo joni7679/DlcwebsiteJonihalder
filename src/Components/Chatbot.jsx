@@ -62,14 +62,16 @@ const Chatbot = () => {
                         >
                             <div
                                 className={`max-w-[70%] px-4 py-2 rounded-xl text-sm ${msg.role === "user"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-200"
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-200"
                                     }`}
                             >
                                 <p>{msg.content}</p>
-                                <p className="text-[10px] text-right text-gray-500 mt-1">
+
+                                <p className={`text-[10px] text-right  mt-1 ${msg.role === "user" ? "text-white" : "text-black"}`}>
                                     {msg.time}
                                 </p>
+
                             </div>
                         </div>
                     ))}
@@ -94,9 +96,11 @@ const Chatbot = () => {
                     />
                     <button
                         onClick={handleSubmit}
-                        className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
+                        disabled={isTyping}
+                        className={`px-4 py-2 bg-blue-600 text-white rounded-r hover:bg-blue-700 transition ${isTyping ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                     >
-                        Send <IoSendSharp className="inline-block ml-1" />
+                        <IoSendSharp />
                     </button>
                 </div>
             </div>

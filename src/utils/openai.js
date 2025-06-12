@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
-
 export const getChatResponse = async (messages) => {
+    console.log("API_KEY:", API_KEY); 
     try {
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
@@ -10,25 +10,23 @@ export const getChatResponse = async (messages) => {
                 model: "gpt-3.5-turbo",
                 messages: [
                     { role: "system", content: "You are DigiBuddy, a helpful assistant." },
-                    ...messages.map(({ role, content }) => ({ role, content })) // remove time before sending
+                    ...messages.map(({ role, content }) => ({ role, content }))
                 ],
-                temperature: 0.7,
+                temperature: 0.7
             },
             {
                 headers: {
-                    Authorization: `Bearer ${API_KEY}`,
-                    "Content-Type": "application/json",
-                },
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json"
+                }
             }
         );
-
         return response.data.choices[0].message;
-
     } catch (error) {
-        console.error("API Error:", error?.response?.data || error.message);
+        console.error(" OpenAI API Error:", error.response?.data || error.message);
         return {
             role: "assistant",
-            content: "Sorry, something went wrong. Please try again later.",
+            content: "Something went wrong. Please try again."
         };
     }
 };
